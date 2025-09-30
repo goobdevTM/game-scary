@@ -3,7 +3,7 @@ extends CharacterBody3D
 @onready var camera: Camera3D = $Camera3D
 @onready var world_environment: WorldEnvironment = $"../WorldEnvironment"
 
-const default_speed : float = 15
+const default_speed : float = 3
 const jump_vel : int = 5
 const friction : float = 0.5
 

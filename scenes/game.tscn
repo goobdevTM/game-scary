@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://b4ad4hanapsj"]
+[gd_scene load_steps=15 format=3 uid="uid://b4ad4hanapsj"]
 
 [ext_resource type="Script" uid="uid://hhydkwyysr7d" path="res://assets/scripts/world.gd" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://danwwy1p8xa2f" path="res://assets/scripts/player.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://bxw777x45fbv2" path="res://scenes/chunk.tscn" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://dt3mdi5ddmptd" path="res://assets/scripts/gui.gd" id="2_yqjtg"]
+[ext_resource type="Environment" uid="uid://cbv5d62sqkapm" path="res://assets/environment.tres" id="4_iywne"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lbhrr"]
 fractal_octaves = 3
@@ -96,18 +97,13 @@ libraries = {
 playback_default_blend_time = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("4_iywne")
 camera_attributes = SubResource("CameraAttributesPractical_lbhrr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.9659259, 0.18301271, 0.18301272, 0, -0.7071069, 0.7071067, 0.25881907, -0.68301266, -0.6830127, 0, 0, 0)
-visible = false
 light_color = Color(0.3259983, 0.76149744, 0.83704245, 1)
 light_energy = 0.25
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.9803799, 0.18118623, -0.07763277, 0.07322328, 0.030910535, 0.99683654, 0.18301272, -0.9829629, 0.017036999, 0, 0, 0)
-light_color = Color(0.3259983, 0.76149744, 0.83704245, 1)
-shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 3
