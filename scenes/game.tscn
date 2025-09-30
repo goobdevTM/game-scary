@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4ad4hanapsj"]
+[gd_scene load_steps=14 format=3 uid="uid://b4ad4hanapsj"]
 
 [ext_resource type="Script" uid="uid://hhydkwyysr7d" path="res://assets/scripts/world.gd" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://danwwy1p8xa2f" path="res://assets/scripts/player.gd" id="1_uwrxv"]
@@ -6,6 +6,14 @@
 [ext_resource type="Script" uid="uid://dt3mdi5ddmptd" path="res://assets/scripts/gui.gd" id="2_yqjtg"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lbhrr"]
+fractal_octaves = 3
+fractal_gain = 0.695
+fractal_weighted_strength = 0.18
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iywne"]
+noise = SubResource("FastNoiseLite_lbhrr")
+seamless = true
+seamless_blend_skirt = 0.25
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lnu2h"]
 
@@ -60,7 +68,7 @@ dof_blur_amount = 0.2
 
 [node name="World" type="Node3D" parent="."]
 script = ExtResource("1_lbhrr")
-noise = SubResource("FastNoiseLite_lbhrr")
+tree_noise = SubResource("NoiseTexture2D_iywne")
 
 [node name="Chunk" parent="World" instance=ExtResource("2_lbhrr")]
 

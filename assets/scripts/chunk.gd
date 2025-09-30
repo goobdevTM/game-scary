@@ -70,15 +70,23 @@ func _on_visible_area_body_entered(body: Node3D) -> void:
 	flash(Global.flashlight)
 	
 func spawn_random_object(pos : Vector2i) -> void:
-	if randi_range(0,1) == 0:
-		var rand : int = randi_range(0,1)
-		var object : Node3D = null
+	var rand : int = randi_range(0,1)
+	var object : Node3D = null
+	if randi_range(0,2) == 0:
+		rand = randi_range(0,1)
 		match rand:
 			0:
 				object = PLANT.instantiate()
 			1:
 				object = TREE.instantiate()
+	else:
+		if get_parent().tree_noise.noise.get_noise_2d(pos.x + position.x, pos.y + position.z) > 0.5:
+			object = TREE.instantiate()
+			
+			
 				
+	if object:
+		object.scale *= randf_range(0.8,1.2)
 		objects.add_child(object)
 		object.position = Vector3(pos.x, 0, pos.y)
 
