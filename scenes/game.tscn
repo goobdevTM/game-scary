@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://b4ad4hanapsj"]
+
+[ext_resource type="Script" uid="uid://danwwy1p8xa2f" path="res://assets/scripts/player.gd" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://dt3mdi5ddmptd" path="res://assets/scripts/gui.gd" id="2_yqjtg"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yqjtg"]
+size = Vector2(16, 16)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lnu2h"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yqjtg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uwrxv"]
+sky_top_color = Color(0.11034896, 0.2527257, 0.3460922, 1)
+sky_horizon_color = Color(0.11461037, 0.14131898, 0.21582243, 1)
+ground_bottom_color = Color(0.030016357, 0.061268784, 0.079115875, 1)
+ground_horizon_color = Color(0.11372549, 0.14117648, 0.21568628, 1)
+sun_curve = 0.02153804
+
+[sub_resource type="Sky" id="Sky_yqjtg"]
+sky_material = SubResource("ProceduralSkyMaterial_uwrxv")
+
+[sub_resource type="Environment" id="Environment_lnu2h"]
+background_mode = 2
+sky = SubResource("Sky_yqjtg")
+
+[node name="Game" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Chunk" type="Node3D" parent="World"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Chunk"]
+mesh = SubResource("PlaneMesh_yqjtg")
+skeleton = NodePath("../..")
+
+[node name="FloorCollision" type="StaticBody3D" parent="World"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/FloorCollision"]
+shape = SubResource("WorldBoundaryShape3D_lnu2h")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_uwrxv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CylinderShape3D_yqjtg")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lnu2h")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.524519, 0.30868125, 0.7934707, 0.3535534, -0.9267767, 0.12682655, 0.7745191, 0.21401127, -0.5952474, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("2_yqjtg")
+
+[node name="Pause" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Pause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Pause"]
+layout_mode = 0
+offset_left = 580.0
+offset_top = 286.0
+offset_right = 1576.0
+offset_bottom = 416.0
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center]Pause"
