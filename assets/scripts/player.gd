@@ -1,10 +1,11 @@
 extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
+@onready var world_environment: WorldEnvironment = $"../WorldEnvironment"
 
-const default_speed : int = 1
+const default_speed : float = 15
 const jump_vel : int = 5
-const friction : float = 0.75
+const friction : float = 0.5
 
 var speed : float
 var coyote_time : float = 0
@@ -13,6 +14,7 @@ var direction : Vector3
 var input_dir : Vector2
 var sensitivity : float = 0.004
 var vel : Vector2
+var flashlight : bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -46,6 +48,17 @@ func _physics_process(delta: float) -> void:
 	velocity += Vector3(vel.x, 0, vel.y)
 	velocity.x *= friction
 	velocity.z *= friction
+	
+	
+	if Input.is_action_just_pressed("flashlight"):
+		flashlight = not flashlight
+		Global.flashlight = flashlight
+		if flashlight:
+			world_environment.environment.fog_density = 0.1
+		else:
+			world_environment.environment.fog_density = 0.2
+		Global.emit_signal("flashlight_changed", flashlight)
+	
 	
 	move_and_slide()
 	

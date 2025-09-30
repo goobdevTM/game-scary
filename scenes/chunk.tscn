@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxw777x45fbv2"]
+
+[ext_resource type="Script" uid="uid://d3neuhrukb6oe" path="res://assets/scripts/chunk.gd" id="1_jas4a"]
+[ext_resource type="Material" uid="uid://bxwftebjlf1eo" path="res://assets/materials/grass.tres" id="2_jtw3q"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yqjtg"]
+size = Vector2(16, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtw3q"]
+size = Vector3(96, 16, 96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c3gog"]
+
+[node name="Chunk" type="Node3D" groups=["chunk"]]
+script = ExtResource("1_jas4a")
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain"]
+mesh = SubResource("PlaneMesh_yqjtg")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("2_jtw3q")
+
+[node name="Objects" type="Node3D" parent="Terrain"]
+
+[node name="GenerateArea" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GenerateArea"]
+shape = SubResource("BoxShape3D_jtw3q")
+
+[node name="VisibleArea" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibleArea"]
+shape = SubResource("BoxShape3D_jtw3q")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+aabb = AABB(-8, -1, -8, 16, 2, 16)
+
+[node name="DetectInsideOtherChunk" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectInsideOtherChunk"]
+shape = SubResource("BoxShape3D_c3gog")
+
+[connection signal="body_entered" from="GenerateArea" to="." method="_on_generate_area_body_entered"]
+[connection signal="body_entered" from="VisibleArea" to="." method="_on_visible_area_body_entered"]
+[connection signal="body_exited" from="VisibleArea" to="." method="_on_visible_area_body_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
+[connection signal="area_entered" from="DetectInsideOtherChunk" to="." method="_on_detect_inside_other_chunk_area_entered"]

@@ -1,46 +1,78 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4ad4hanapsj"]
+[gd_scene load_steps=13 format=3 uid="uid://b4ad4hanapsj"]
 
+[ext_resource type="Script" uid="uid://hhydkwyysr7d" path="res://assets/scripts/world.gd" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://danwwy1p8xa2f" path="res://assets/scripts/player.gd" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://bxw777x45fbv2" path="res://scenes/chunk.tscn" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://dt3mdi5ddmptd" path="res://assets/scripts/gui.gd" id="2_yqjtg"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_yqjtg"]
-size = Vector2(16, 16)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lbhrr"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lnu2h"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yqjtg"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uwrxv"]
-sky_top_color = Color(0.11034896, 0.2527257, 0.3460922, 1)
-sky_horizon_color = Color(0.11461037, 0.14131898, 0.21582243, 1)
-ground_bottom_color = Color(0.030016357, 0.061268784, 0.079115875, 1)
-ground_horizon_color = Color(0.11372549, 0.14117648, 0.21568628, 1)
-sun_curve = 0.02153804
+[sub_resource type="Animation" id="Animation_p57ef"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0)]
+}
 
-[sub_resource type="Sky" id="Sky_yqjtg"]
-sky_material = SubResource("ProceduralSkyMaterial_uwrxv")
+[sub_resource type="Animation" id="Animation_iywne"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0)]
+}
 
-[sub_resource type="Environment" id="Environment_lnu2h"]
-background_mode = 2
-sky = SubResource("Sky_yqjtg")
+[sub_resource type="Animation" id="Animation_lbhrr"]
+resource_name = "walk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5sy4"]
+_data = {
+&"RESET": SubResource("Animation_p57ef"),
+&"idle": SubResource("Animation_iywne"),
+&"walk": SubResource("Animation_lbhrr")
+}
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_lbhrr"]
+dof_blur_near_enabled = true
+dof_blur_near_transition = 2.0
+dof_blur_amount = 0.2
 
 [node name="Game" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
+script = ExtResource("1_lbhrr")
+noise = SubResource("FastNoiseLite_lbhrr")
 
-[node name="Chunk" type="Node3D" parent="World"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Chunk"]
-mesh = SubResource("PlaneMesh_yqjtg")
-skeleton = NodePath("../..")
+[node name="Chunk" parent="World" instance=ExtResource("2_lbhrr")]
 
 [node name="FloorCollision" type="StaticBody3D" parent="World"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/FloorCollision"]
+visible = false
 shape = SubResource("WorldBoundaryShape3D_lnu2h")
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
 script = ExtResource("1_uwrxv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
@@ -49,11 +81,24 @@ shape = SubResource("CylinderShape3D_yqjtg")
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
+[node name="Anim" type="AnimationPlayer" parent="Player"]
+libraries = {
+&"": SubResource("AnimationLibrary_u5sy4")
+}
+playback_default_blend_time = 0.1
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_lnu2h")
+camera_attributes = SubResource("CameraAttributesPractical_lbhrr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.524519, 0.30868125, 0.7934707, 0.3535534, -0.9267767, 0.12682655, 0.7745191, 0.21401127, -0.5952474, 0, 0, 0)
+transform = Transform3D(0.9659259, 0.18301271, 0.18301272, 0, -0.7071069, 0.7071067, 0.25881907, -0.68301266, -0.6830127, 0, 0, 0)
+visible = false
+light_color = Color(0.3259983, 0.76149744, 0.83704245, 1)
+light_energy = 0.25
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9803799, 0.18118623, -0.07763277, 0.07322328, 0.030910535, 0.99683654, 0.18301272, -0.9829629, 0.017036999, 0, 0, 0)
+light_color = Color(0.3259983, 0.76149744, 0.83704245, 1)
 shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
