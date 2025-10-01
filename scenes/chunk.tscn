@@ -36,7 +36,7 @@ collision_mask = 2
 shape = SubResource("BoxShape3D_jtw3q")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
-aabb = AABB(-8, -1, -8, 16, 2, 16)
+aabb = AABB(-8, -3, -8, 16, 6, 16)
 
 [node name="DetectInsideOtherChunk" type="Area3D" parent="."]
 collision_layer = 128

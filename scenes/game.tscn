@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://b4ad4hanapsj"]
+[gd_scene load_steps=17 format=3 uid="uid://b4ad4hanapsj"]
 
 [ext_resource type="Script" uid="uid://hhydkwyysr7d" path="res://assets/scripts/world.gd" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://danwwy1p8xa2f" path="res://assets/scripts/player.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://bxw777x45fbv2" path="res://scenes/chunk.tscn" id="2_lbhrr"]
 [ext_resource type="Script" uid="uid://dt3mdi5ddmptd" path="res://assets/scripts/gui.gd" id="2_yqjtg"]
 [ext_resource type="Environment" uid="uid://cbv5d62sqkapm" path="res://assets/environment.tres" id="4_iywne"]
+[ext_resource type="AudioStream" uid="uid://c0aysu4hslxas" path="res://assets/materials/vvvvvv.ogg" id="6_p57ef"]
+[ext_resource type="PackedScene" uid="uid://d0wnn7ckhk48y" path="res://scare.tscn" id="7_u5sy4"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_lbhrr"]
 fractal_octaves = 3
@@ -135,3 +137,12 @@ offset_bottom = 416.0
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "[center]Pause"
+
+[node name="ambience player" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_p57ef")
+volume_db = 0.331
+autoplay = true
+
+[node name="scare" parent="." instance=ExtResource("7_u5sy4")]
+visible = false
+position = Vector2(234, 590)

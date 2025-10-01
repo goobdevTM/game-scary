@@ -1,17 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2uxda7mneqrd"]
+[gd_scene load_steps=7 format=3 uid="uid://c2uxda7mneqrd"]
 
 [ext_resource type="Texture2D" uid="uid://dckv8uhthavxx" path="res://assets/textures/tree_1.png" id="1_avsvi"]
+[ext_resource type="Script" uid="uid://capbga4ns0oxe" path="res://assets/scripts/tree.gd" id="1_viusy"]
+[ext_resource type="Texture2D" uid="uid://dbh12gjatcfu1" path="res://assets/tree_2.png" id="2_qd6xs"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_viusy"]
+noise_type = 0
+frequency = 0.1765
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qd6xs"]
+noise = SubResource("FastNoiseLite_viusy")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_avsvi"]
 height = 3.0
 
 [node name="Tree" type="Node3D"]
+script = ExtResource("1_viusy")
+typenoise = SubResource("NoiseTexture2D_qd6xs")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="tree" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.1, 0)
 billboard = 2
 texture_filter = 2
 texture = ExtResource("1_avsvi")
+
+[node name="pine" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.1, 0)
+billboard = 2
+texture_filter = 2
+texture = ExtResource("2_qd6xs")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

@@ -10,7 +10,7 @@ signal shown
 @onready var terrain: Node3D = $Terrain
 @onready var objects: Node3D = $Terrain/Objects
 
-var colors : Array = [Color(0.403, 0.482, 0.56, 1.0), Color(0.871, 0.892, 0.838, 1.0)]
+var colors : Array = [Color(0.403, 0.482, 0.56, 1.0), Color(0.426, 0.46, 0.124, 1.0)]
 var unc : bool = false
 var chunk_pos : Vector2i 
 
@@ -33,10 +33,8 @@ func flash(flashlight_on : bool) -> void:
 	if visible and terrain.visible:
 		var change_color_to : Color
 		if flashlight_on:
-			print("falsgh on")
 			change_color_to = colors[1]
 		else:
-			print("falsgh off")
 			change_color_to = colors[0]
 			
 		for i : Node3D in objects.get_children():
