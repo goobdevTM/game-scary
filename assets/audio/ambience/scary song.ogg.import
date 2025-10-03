@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://da52nkpbu0uda"
+path="res://.godot/imported/scary song.ogg-711d037226493f4360c596c5a696ddde.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/audio/ambience/scary song.ogg"
+dest_files=["res://.godot/imported/scary song.ogg-711d037226493f4360c596c5a696ddde.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=46.82
+bpm=82.0
+beat_count=128
+bar_beats=4

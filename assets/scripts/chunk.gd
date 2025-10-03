@@ -10,7 +10,9 @@ signal shown
 @onready var terrain: Node3D = $Terrain
 @onready var objects: Node3D = $Terrain/Objects
 
-var colors : Array = [Color(0.403, 0.482, 0.56, 1.0), Color(0.426, 0.46, 0.124, 1.0)]
+@export var first : bool = false
+
+var colors : Array = [Color(0.383, 0.461, 0.537, 1.0), Color(0.452, 0.488, 0.133, 1.0)]
 var unc : bool = false
 var chunk_pos : Vector2i 
 
@@ -20,10 +22,11 @@ func _ready() -> void:
 			
 	Global.flashlight_changed.connect(flash)
 	hide()
-	for x in range(-8,8):
-		for y in range(-8,8):
-			if randi_range(0,2) == 0:
-				spawn_random_object(Vector2i(x,y))
+	if not first:
+		for x in range(-8,8):
+			for y in range(-8,8):
+				if randi_range(0,2) == 0:
+					spawn_random_object(Vector2i(x,y))
 	await get_tree().create_timer(0).timeout
 	unc = true
 	await get_tree().create_timer(0.1).timeout
